@@ -3,4 +3,4 @@ files/*
 meta/.galaxy_install_info
 molecule/**/files/*.rpm
 molecule/**/files/*.deb
-
+.tox/**
