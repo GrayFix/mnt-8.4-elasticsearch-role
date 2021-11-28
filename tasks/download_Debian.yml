@@ -3,7 +3,9 @@
   get_url:
     url: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{ elasticsearch_version }}-amd64.deb"
     dest: "files/elasticsearch-{{ elasticsearch_version }}-amd64.deb"
+  timeout: 900
   delegate_to: localhost
+  run_once: True
   register: download_elastic
   until: download_elastic is succeeded
   when: elastic_install_type == 'remote'
