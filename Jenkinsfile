@@ -1,21 +1,14 @@
 pipeline {
-    agent {
-        label 'linux'
-    }
+    agent any
+
     stages {
-        stage('Checkout') {
-            steps{
-                git branch: 'main', credentialsId: '7107e6e5-6511-44ab-903a-387cb7a5c266', url: 'git@github.com:netology-code/mnt-homeworks-ansible.git'
+        stage('Prepare') {
+            steps {
+                git branch: 'main', url: 'https://github.com/GrayFix/mnt-8.4-elasticsearch-role.git/'
             }
         }
-        stage('Install molecule') {
-            steps{
-                sh 'pip3 install -r test-requirements.txt'
-                sh "echo =============="
-            }
-        }
-        stage('Run Molecule'){
-            steps{
+        stage('Run molecule') {
+            steps {
                 sh 'molecule test'
             }
         }
