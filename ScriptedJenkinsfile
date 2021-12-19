@@ -1,0 +1,30 @@
+node{
+    stage("Git checkout"){
+        git url: 'https://github.com/aragastmatb/example-playbook.git'
+    }
+    stage("Prepare Ansible Galaxy"){
+        sh 'ansible-galaxy role install -r requirements.yml -p roles'
+    }
+    stage("Sample define secret_check"){
+        secret_check=true
+    }
+    stage("Run playbook"){
+        if (params.prod_run) {
+            ansible_params = ""
+            sh 'echo true'
+        }
+        else {
+            ansible_params = "--check --diff"
+            sh 'echo false'
+            sh "echo ${ansible_params}"
+        }
+         
+        if (secret_check){
+            sh "ansible-playbook site.yml -i inventory/prod.yml ${ansible_params}"
+        }
+        else{
+            echo 'need more action'
+        }
+        
+    }
+}
